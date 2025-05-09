@@ -6,7 +6,7 @@ A simple Ollama chatbot that is easy to install and use.
 
 1. Install Ollama.
 1. Install your favorite model. For example, you can use the following command to install the qwen3 model: ```ollama pull qwen3```
-1. Make sure Ollama is running. (Either by doing Do ```ollama serve``` in a terminal or by opening ollama.exe)
+1. Make sure Ollama is running. (Either by doing doing ```ollama serve``` in a terminal or by opening ollama.exe)
 1. Copy the file ```simple_chatbot.html``` to your disk.
 1. Open the file ```simple_chatbot.html``` in a web browser.
 
