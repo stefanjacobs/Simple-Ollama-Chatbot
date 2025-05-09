@@ -13,8 +13,8 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             height: 100vh;
             margin: 0;
-            background-color: #f6f8fa;
-            color: #24292f;
+            background-color: #f6f8fa; /* GitHub page background */
+            color: #24292f; /* GitHub default text color */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,20 +28,20 @@
             height: 95vh;
             width: 100%;
             max-width: 800px;
-            border: 1px solid #d0d7de;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(27,31,36,0.04), 0 3px 6px rgba(27,31,36,0.1);
-            background-color: #ffffff;
+            border: 1px solid #d0d7de; /* GitHub border color */
+            border-radius: 6px; /* GitHub border radius */
+            box-shadow: 0 1px 0 rgba(27,31,36,0.04), 0 3px 6px rgba(27,31,36,0.1); /* Softer shadow */
+            background-color: #ffffff; /* GitHub panel background */
             overflow: hidden;
         }
 
-        .header-section {
+        .header-section { /* Common class for top sections */
             padding: 16px;
-            background-color: #f6f8fa;
+            background-color: #f6f8fa; /* GitHub header/footer bar color */
             border-bottom: 1px solid #d0d7de;
         }
 
-            .header-section label:not(.collapsible-header-label) {
+            .header-section label:not(.collapsible-header-label) { /* Exclude collapsible header acting as label */
                 font-weight: 600;
                 margin-bottom: 8px;
                 display: block;
@@ -60,24 +60,24 @@
                 border-radius: 6px;
                 box-shadow: inset 0 1px 0 rgba(27,31,36,0.075);
                 vertical-align: middle;
-                box-sizing: border-box;
+                box-sizing: border-box; /* Ensure padding doesn't increase width */
             }
 
                 .header-section select:focus,
                 .header-section textarea:focus {
-                    border-color: #0969da;
+                    border-color: #0969da; /* GitHub focus blue */
                     outline: none;
                     box-shadow: inset 0 1px 0 rgba(27,31,36,0.075), 0 0 0 3px rgba(9,105,218,0.3);
                 }
 
-        .model-selector {
+        .model-selector { /* Uses .header-section styles */
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
             .model-selector label {
-                margin-bottom: 0;
+                margin-bottom: 0; /* Override for inline display */
                 flex-shrink: 0;
             }
 
@@ -130,7 +130,7 @@
             max-width: 85%;
             word-wrap: break-word;
             line-height: 1.5;
-            border: 1px solid #d0d7de;
+            border: 1px solid #d0d7de; /* Default border, can be overridden by specific message types */
         }
 
             .message-bubble .message-sender {
@@ -148,23 +148,24 @@
             }
 
         .user-message {
-            background-color: #e6f7ff; /* Very light blue, GitHub's blue-0 */
-            border-color: #cceeff; /* GitHub's blue-1 for border */
+            background-color: #EFF6FF; /* Very light blue (GH Primer blue-0) */
+            border-color: #C6DBEF; /* Complementary border (GH Primer blue-2/3) */
             color: #24292f;
             align-self: flex-end;
         }
 
         .ai-message {
-            background-color: #f6f8fa;
-            border-color: #d0d7de;
+            background-color: #f6f8fa; /* GitHub subtle background */
+            border-color: #d0d7de; /* Default border color */
             color: #24292f;
             align-self: flex-start;
         }
 
-            .ai-message em {
+            .ai-message em { /* For "Typing..." */
                 color: #57606a;
             }
 
+        /* Collapsible Think Section Styles */
         .collapsible-think-section {
             margin: 10px 0;
             border: 1px dashed #0969da;
@@ -228,6 +229,7 @@
                     box-shadow: inset 0 1px 0 rgba(27,31,36,0.075), 0 0 0 3px rgba(9,105,218,0.3);
                 }
 
+
             .chat-input-area button {
                 border-radius: 6px;
                 padding: 8px 16px;
@@ -264,6 +266,8 @@
                 background-color: #a40e26;
             }
 
+
+        /* Markdown specific styles (GitHub-like) */
         .message-content pre {
             background-color: #f6f8fa;
             color: #24292f;
@@ -384,10 +388,15 @@
         </div>
     </div>
 
+    <!-- Marked.js for Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+    <!-- Prism.js Core & Autoloader for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- MathJax Configuration & Script -->
     <script>
         window.MathJax = {
             tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
@@ -417,31 +426,16 @@
         const THINK_TAG_PLACEHOLDER_PREFIX = "%%THINK_BLOCK_ID_";
         const THINK_TAG_PLACEHOLDER_SUFFIX = "%%";
 
-        function escapeHtml(unsafe) {
-            return unsafe
-                .replace(/&/g, "&")
-                .replace(/</g, "<")
-                .replace(/>/g, ">")
-                .replace(/"/g, """)
-                    .replace(/'/g, "'");
-        }
-
         marked.setOptions({
             highlight: function (code, lang) {
-                lang = lang || 'plain'; // Default to 'plain' if no language is specified
                 if (Prism.languages[lang]) {
                     return Prism.highlight(code, Prism.languages[lang], lang);
-                } else {
-                    // If language is not loaded, Prism Autoloader (when Prism.highlightAllUnder is called)
-                    // will attempt to load it. Marked expects synchronous return.
-                    // So, return the code in a way that Prism can find it later.
-                    // Marked will wrap this in <pre><code> if this function returns it as is.
-                    // However, for Prism to recognize it, it needs the class="language-xxxx" on the <code> tag.
-                    // Marked's default renderer adds this.
-                    // So, if lang is not loaded, just return the code, marked will escape it.
-                    // The `Prism.highlightAllUnder` call later will handle it with autoloader.
-                    return escapeHtml(code); // Marked will put this into a <code> with the correct lang class.
+                } else if (lang) {
+                    Prism.plugins.autoloader.loadLanguages(lang, () => { });
+                    return code;
                 }
+                // Fallback for no language or unknown language
+                return Prism.highlight(code, Prism.languages.markup, 'markup');
             },
             gfm: true, breaks: true, pedantic: false, smartLists: true, smartypants: false, headerIds: false, mangle: false
         });
@@ -487,15 +481,16 @@
                 currentAiMessageElement = messageBubble;
                 currentAiMessageContentDiv = contentDiv;
             } else {
-                // For non-streaming (User messages, or potentially finalized AI messages if not streamed)
-                contentDiv.innerHTML = marked.parse(textContent);
+                // For non-streaming: User messages and potentially non-streaming AI
+                contentDiv.innerHTML = marked.parse(textContent); // 1. Parse Markdown
 
-                // Apply MathJax and Prism for User messages
-                if (sender === 'User') {
-                    if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-                        MathJax.typesetPromise([contentDiv]).catch(err => console.warn("MathJax (User):", err));
-                    }
-                    Prism.highlightAllUnder(contentDiv); // Apply Prism highlighting
+                // 2. Apply Prism syntax highlighting to code blocks within this specific contentDiv
+                Prism.highlightAllUnder(contentDiv);
+
+                // 3. Apply MathJax to render math expressions within this specific contentDiv
+                if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                    MathJax.typesetPromise([contentDiv])
+                        .catch(err => console.warn(`MathJax processing error for ${sender} message:`, err));
                 }
             }
             messageBubble.appendChild(contentDiv);
@@ -515,7 +510,10 @@
             let blockIdCounter = 0;
             const processedMarkdown = markdown.replace(/<think>([\s\S]*?)<\/think>/g, (match, thinkContent) => {
                 const currentId = blockIdCounter++;
-                thinkBlocks.push({ id: `think-${Date.now()}-${currentId}`, rawContent: thinkContent });
+                thinkBlocks.push({
+                    id: `think-${Date.now()}-${currentId}`,
+                    rawContent: thinkContent
+                });
                 return `${THINK_TAG_PLACEHOLDER_PREFIX}${thinkBlocks[thinkBlocks.length - 1].id}${THINK_TAG_PLACEHOLDER_SUFFIX}`;
             });
             return { processedMarkdown, thinkBlocks };
@@ -549,6 +547,7 @@
         function addThinkBlockListeners(parentElement) {
             parentElement.querySelectorAll('.think-header').forEach(header => {
                 if (header.dataset.listenerAttached === 'true') return;
+
                 header.addEventListener('click', () => {
                     const blockId = header.dataset.thinkBlockId;
                     const thinkContentElement = parentElement.querySelector(`#think-content-${blockId}`);
@@ -578,6 +577,7 @@
                 currentAiMessageContentDiv.dataset.rawMarkdown = currentRawMarkdown;
 
                 const { processedMarkdown, thinkBlocks } = processThinkTagsInMarkdown(currentRawMarkdown);
+                // marked.parse() will call Prism highlight via the options
                 currentAiMessageContentDiv.innerHTML = marked.parse(processedMarkdown);
                 renderThinkBlocksHTML(currentAiMessageContentDiv, thinkBlocks);
                 addThinkBlockListeners(currentAiMessageContentDiv);
@@ -590,19 +590,22 @@
                 const finalRawMarkdown = currentAiMessageContentDiv.dataset.rawMarkdown;
                 const { processedMarkdown, thinkBlocks } = processThinkTagsInMarkdown(finalRawMarkdown);
 
+                // marked.parse() will call Prism highlight via the options
                 currentAiMessageContentDiv.innerHTML = marked.parse(processedMarkdown);
                 renderThinkBlocksHTML(currentAiMessageContentDiv, thinkBlocks);
                 addThinkBlockListeners(currentAiMessageContentDiv);
 
+                // Ensure everything is highlighted and typeset
+                Prism.highlightAllUnder(currentAiMessageContentDiv); // Final pass for Prism
                 if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-                    MathJax.typesetPromise([currentAiMessageContentDiv]).catch(err => console.warn("MathJax (final AI):", err));
+                    MathJax.typesetPromise([currentAiMessageContentDiv]).catch(err => console.warn("MathJax (final):", err));
                 }
-                Prism.highlightAllUnder(currentAiMessageContentDiv);
             }
             currentAiMessageElement = null;
             currentAiMessageContentDiv = null;
             scrollToBottom();
         }
+
 
         async function sendMessage() {
             const messageText = userInput.value.trim();
@@ -615,7 +618,7 @@
             sendButton.disabled = true;
             userInput.disabled = true;
 
-            displayMessage("User", messageText); // MathJax & Prism for user message handled here
+            displayMessage("User", messageText); // User message is parsed, Prism'd, and MathJax'd here
             userInput.value = '';
 
             const aiMessageElements = displayMessage("AI", "<em>Typing...</em>", true);
@@ -671,13 +674,14 @@
                 console.error("Error sending message:", error);
                 const errorMessage = `**Error:** ${error.message || "An unknown error occurred."}`;
                 if (currentAiMessageContentDiv) {
-                    currentAiMessageContentDiv.innerHTML = marked.parse(errorMessage);
+                    currentAiMessageContentDiv.innerHTML = marked.parse(errorMessage); // Parse error message too
+                    Prism.highlightAllUnder(currentAiMessageContentDiv); // Highlight if error has code
                     currentAiMessageContentDiv.dataset.rawMarkdown = errorMessage;
                 } else {
                     displayMessage("AI", errorMessage);
                 }
             } finally {
-                finalizeAiMessage(); // Handles MathJax & Prism for final AI message
+                finalizeAiMessage();
                 isAwaitingResponse = false;
                 sendButton.disabled = false;
                 userInput.disabled = false;
