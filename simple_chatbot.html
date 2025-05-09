@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ollama Standalone Chat</title>
+
+    <!-- Prism.js CSS (okaidia theme) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* Basic styles adapted from the Blazor version */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 95vh;
+            width: 100%;
+            max-width: 800px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: #fff;
+            overflow: hidden;
+        }
+
+        .model-selector {
+            padding: 10px 15px;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .model-selector label {
+                font-weight: bold;
+                margin-bottom: 0;
+            }
+
+            .model-selector select {
+                flex-grow: 1;
+                padding: 5px;
+                border-radius: 4px;
+                border: 1px solid #ccc;
+            }
+
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message-bubble {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 75%;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+            .message-bubble .message-sender {
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-bottom: 4px;
+                color: #555;
+            }
+
+            .message-bubble .message-timestamp {
+                font-size: 0.7em;
+                color: #999;
+                text-align: right;
+                margin-top: 5px;
+            }
+
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+            .user-message .message-sender, .user-message .message-timestamp {
+                color: #e0e0e0;
+            }
+
+        .ai-message {
+            background-color: #e9ecef;
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+            .ai-message .message-sender {
+                color: #007bff;
+            }
+
+            .ai-message em {
+                color: #6c757d;
+            }
+        /* For "Typing..." */
+
+
+        .chat-input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            background-color: #f8f9fa;
+        }
+
+            .chat-input-area textarea {
+                flex-grow: 1;
+                margin-right: 10px;
+                resize: none;
+                border-radius: 18px;
+                padding: 10px 15px;
+                border: 1px solid #ced4da;
+                font-family: inherit;
+                font-size: 1em;
+            }
+
+            .chat-input-area button {
+                border-radius: 18px;
+                padding: 0 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-size: 1em;
+            }
+
+                .chat-input-area button:disabled {
+                    background-color: #a0cfff;
+                    cursor: not-allowed;
+                }
+
+        /* Markdown specific styles (from marked.js defaults + Prism) */
+        .message-content pre {
+            /* Prism.js okaidia theme will style this, but good to have a base */
+            background-color: #272822; /* Matches Okaidia theme often */
+            color: #f8f8f2;
+            padding: 1em;
+            border-radius: 0.3em;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        .message-content code:not(pre code) { /* Inline code */
+            background-color: #f0f0f0;
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+
+        .message-content table {
+            border-collapse: collapse;
+            margin: 1em 0;
+            width: auto;
+        }
+
+        .message-content th, .message-content td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .message-content th {
+            background-color: #f2f2f2;
+        }
+
+        .message-content blockquote {
+            border-left: 4px solid #ccc;
+            padding-left: 10px;
+            color: #666;
+            margin-left: 0;
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="model-selector">
+            <label for="model-select">Model:</label>
+            <select id="model-select">
+                <option value="">Loading models...</option>
+            </select>
+        </div>
+
+        <div class="chat-messages" id="chat-messages-area">
+            <!-- Messages will be appended here -->
+        </div>
+
+        <div class="chat-input-area">
+            <textarea id="user-input" placeholder="Type your message (Shift+Enter for new line)..." rows="2"></textarea>
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <!-- Marked.js for Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Prism.js Core & Autoloader for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- MathJax Configuration & Script -->
+    <script>window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            startup: {
+                ready: () => {
+                    console.log('MathJax is ready.');
+                    MathJax.startup.defaultReady();
+                }
+            }
+        };</script>
+    <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>const OLLAMA_API_URL = "http://localhost:11434"; // Your Ollama API URL
+
+        const modelSelect = document.getElementById('model-select');
+        const chatMessagesArea = document.getElementById('chat-messages-area');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        let conversationHistory = [];
+        let isAwaitingResponse = false;
+        let currentAiMessageElement = null;
+        let currentAiMessageContentDiv = null;
+
+        // --- Marked.js setup for GitHub Flavored Markdown and syntax highlighting ---
+        // Tell marked to use Prism.js for highlighting
+        marked.setOptions({
+            highlight: function (code, lang) {
+                if (Prism.languages[lang]) {
+                    return Prism.highlight(code, Prism.languages[lang], lang);
+                } else {
+                    return code; // Or Prism.highlight(code, Prism.languages.markup, 'markup') for a default
+                }
+            },
+            gfm: true, // Enable GitHub Flavored Markdown
+            breaks: true, // Convert GFM line breaks to <br>
+            pedantic: false,
+            smartLists: true,
+            smartypants: false
+        });
+
+        // --- Core Functions ---
+
+        async function fetchModels() {
+            try {
+                const response = await fetch(`${OLLAMA_API_URL}/api/tags`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                populateModelSelector(data.models || []);
+            } catch (error) {
+                console.error("Error fetching models:", error);
+                modelSelect.innerHTML = '<option value="">Error loading models</option>';
+            }
+        }
+
+        function populateModelSelector(models) {
+            modelSelect.innerHTML = ''; // Clear existing
+            if (models.length === 0) {
+                modelSelect.innerHTML = '<option value="">No models found</option>';
+                return;
+            }
+            models.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.name;
+                option.textContent = model.name;
+                modelSelect.appendChild(option);
+            });
+        }
+
+        function displayMessage(sender, textContent, isStreaming = false) {
+            const messageId = `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+            const messageBubble = document.createElement('div');
+            messageBubble.classList.add('message-bubble');
+            messageBubble.classList.add(sender.toLowerCase() + '-message');
+            messageBubble.id = messageId;
+
+            const senderDiv = document.createElement('div');
+            senderDiv.classList.add('message-sender');
+            senderDiv.textContent = sender === 'User' ? 'You' : (modelSelect.value.split(':')[0] || 'AI');
+            messageBubble.appendChild(senderDiv);
+
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('message-content');
+            if (isStreaming && sender === 'AI') {
+                contentDiv.innerHTML = "<em>Typing...</em>";
+                currentAiMessageElement = messageBubble;
+                currentAiMessageContentDiv = contentDiv;
+            } else {
+                // For non-streaming, or final AI content, parse Markdown
+                contentDiv.innerHTML = marked.parse(textContent);
+            }
+            messageBubble.appendChild(contentDiv);
+
+            const timestampDiv = document.createElement('div');
+            timestampDiv.classList.add('message-timestamp');
+            timestampDiv.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            messageBubble.appendChild(timestampDiv);
+
+            chatMessagesArea.appendChild(messageBubble);
+            scrollToBottom();
+            return { messageBubble, contentDiv }; // Return elements for potential updates
+        }
+
+        function updateStreamingMessage(chunk) {
+            if (currentAiMessageContentDiv) {
+                if (currentAiMessageContentDiv.innerHTML === "<em>Typing...</em>") {
+                    currentAiMessageContentDiv.innerHTML = ''; // Clear "Typing..."
+                }
+                // Append chunk and re-parse. For performance, could diff, but this is simpler.
+                const currentMarkdown = currentAiMessageContentDiv.dataset.rawMarkdown || "";
+                const newMarkdown = currentMarkdown + chunk;
+                currentAiMessageContentDiv.dataset.rawMarkdown = newMarkdown; // Store raw markdown
+                currentAiMessageContentDiv.innerHTML = marked.parse(newMarkdown);
+                // No Prism/MathJax here yet, do it at the end.
+                scrollToBottom();
+            }
+        }
+
+        function finalizeAiMessage() {
+            if (currentAiMessageContentDiv && currentAiMessageContentDiv.dataset.rawMarkdown) {
+                // Final parse of the complete message
+                currentAiMessageContentDiv.innerHTML = marked.parse(currentAiMessageContentDiv.dataset.rawMarkdown);
+                // Apply MathJax and Prism.js
+                if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                    MathJax.typesetPromise([currentAiMessageContentDiv]);
+                }
+                Prism.highlightAllUnder(currentAiMessageContentDiv); // More targeted than Prism.highlightAll()
+            }
+            currentAiMessageElement = null;
+            currentAiMessageContentDiv = null;
+            scrollToBottom();
+        }
+
+
+        async function sendMessage() {
+            const messageText = userInput.value.trim();
+            const selectedModel = modelSelect.value;
+
+            if (!messageText || !selectedModel || isAwaitingResponse) {
+                return;
+            }
+
+            isAwaitingResponse = true;
+            sendButton.disabled = true;
+            userInput.disabled = true;
+
+            displayMessage("User", messageText);
+            conversationHistory.push({ role: "user", content: messageText });
+            userInput.value = ''; // Clear input
+
+            // Display "Typing..." for AI
+            const aiMessageElements = displayMessage("AI", "<em>Typing...</em>", true);
+            currentAiMessageContentDiv = aiMessageElements.contentDiv;
+            currentAiMessageContentDiv.dataset.rawMarkdown = ""; // Initialize raw markdown store
+
+            try {
+                const response = await fetch(`${OLLAMA_API_URL}/api/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: conversationHistory,
+                        stream: true
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status} ${response.statusText}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let aiResponseContent = "";
+
+                // Clear "Typing..." and prepare for streaming content
+                if (currentAiMessageContentDiv.innerHTML === "<em>Typing...</em>") {
+                     currentAiMessageContentDiv.innerHTML = '';
+                }
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    // Ollama streams NDJSON (newline delimited JSON)
+                    const lines = chunk.split('\n').filter(line => line.trim() !== '');
+                    for (const line of lines) {
+                        try {
+                            const parsedLine = JSON.parse(line);
+                            if (parsedLine.message && parsedLine.message.content) {
+                                const contentPiece = parsedLine.message.content;
+                                aiResponseContent += contentPiece;
+                                updateStreamingMessage(contentPiece);
+                            }
+                            if (parsedLine.done) { // This 'done' is per chunk, not end of stream
+                                // console.log("Stream chunk done:", parsedLine);
+                            }
+                        } catch (e) {
+                            console.warn("Failed to parse JSON line from stream:", line, e);
+                        }
+                    }
+                }
+                conversationHistory.push({ role: "assistant", content: aiResponseContent });
+
+            } catch (error) {
+                console.error("Error sending message:", error);
+                if (currentAiMessageContentDiv) {
+                    currentAiMessageContentDiv.innerHTML = `<p><strong>Error:</strong> ${error.message}</p>`;
+                    currentAiMessageContentDiv.dataset.rawMarkdown = `**Error:** ${error.message}`; // Store error as markdown
+                } else { // Should not happen if "Typing..." was shown
+                    displayMessage("AI", `**Error:** ${error.message}`);
+                }
+                conversationHistory.push({ role: "assistant", content: `Error: ${error.message}`});
+            } finally {
+                finalizeAiMessage();
+                isAwaitingResponse = false;
+                sendButton.disabled = false;
+                userInput.disabled = false;
+                userInput.focus();
+            }
+        }
+
+        function scrollToBottom() {
+            chatMessagesArea.scrollTop = chatMessagesArea.scrollHeight;
+        }
+
+        // --- Event Listeners ---
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // Prevent new line in textarea
+                sendMessage();
+            }
+        });
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchModels();
+            userInput.focus();
+            Prism.plugins.autoloader.languages_path = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/';
+        });</script>
+</body>
+</html>
