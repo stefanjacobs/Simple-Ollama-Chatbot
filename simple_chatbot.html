@@ -8,7 +8,6 @@
     <!-- Prism.js CSS (GitHub theme) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -50,7 +49,8 @@
             }
 
             .header-section select,
-            .header-section textarea {
+            .header-section textarea,
+            .header-section input[type="text"] {
                 width: 100%;
                 padding: 8px 12px;
                 font-size: 14px;
@@ -61,29 +61,53 @@
                 border-radius: 6px;
                 box-shadow: inset 0 1px 0 rgba(27,31,36,0.075);
                 vertical-align: middle;
-                box-sizing: border-box; /* Ensure padding doesn't increase width */
+                box-sizing: border-box;
             }
 
                 .header-section select:focus,
-                .header-section textarea:focus {
+                .header-section textarea:focus,
+                .header-section input[type="text"]:focus {
                     border-color: #0969da; /* GitHub focus blue */
                     outline: none;
                     box-shadow: inset 0 1px 0 rgba(27,31,36,0.075), 0 0 0 3px rgba(9,105,218,0.3);
                 }
 
-        .model-selector { /* Uses .header-section styles */
+        .model-selector {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
             .model-selector label {
-                margin-bottom: 0; /* Override for inline display */
+                margin-bottom: 0;
                 flex-shrink: 0;
             }
 
-            .model-selector select {
+            .model-selector select,
+            .model-selector input[type="text"] {
                 flex-grow: 1;
+                width: auto;
+            }
+
+        #update-ollama-url-button {
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            font-size: 1.5em;
+            line-height: 38px;
+            text-align: center;
+            color: #24292f;
+            background-color: #f6f8fa;
+            border: 1px solid rgba(27,31,36,0.15);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+        }
+
+            #update-ollama-url-button:hover {
+                background-color: #f3f4f6;
+                border-color: rgba(27,31,36,0.25);
             }
 
         .system-prompt-area textarea {
@@ -131,7 +155,7 @@
             max-width: 85%;
             word-wrap: break-word;
             line-height: 1.5;
-            border: 1px solid #d0d7de; /* Default border, can be overridden by specific message types */
+            border: 1px solid #d0d7de;
         }
 
             .message-bubble .message-sender {
@@ -148,25 +172,31 @@
                 margin-top: 8px;
             }
 
+            .message-bubble .attachment-note { /* Style for the attachment note in user messages */
+                font-size: 0.85em;
+                color: #57606a;
+                margin-bottom: 6px;
+                font-style: italic;
+            }
+
         .user-message {
-            background-color: #EFF6FF; /* Very light blue (GH Primer blue-0) */
-            border-color: #C6DBEF; /* Complementary border (GH Primer blue-2/3) */
+            background-color: #EFF6FF;
+            border-color: #C6DBEF;
             color: #24292f;
             align-self: flex-end;
         }
 
         .ai-message {
-            background-color: #f6f8fa; /* GitHub subtle background */
-            border-color: #d0d7de; /* Default border color */
+            background-color: #f6f8fa;
+            border-color: #d0d7de;
             color: #24292f;
             align-self: flex-start;
         }
 
-            .ai-message em { /* For "Typing..." */
+            .ai-message em {
                 color: #57606a;
             }
 
-        /* Collapsible Think Section Styles */
         .collapsible-think-section {
             margin: 10px 0;
             border: 1px dashed #0969da;
@@ -202,6 +232,44 @@
                     font-size: 80%;
                 }
 
+        #file-info-area { /* Styles for the area displaying attached file info */
+            padding: 8px 16px;
+            border-top: 1px solid #d0d7de;
+            background-color: #ffffff; /* Match chat input background */
+            font-size: 13px;
+            color: #57606a;
+            display: none; /* Initially hidden */
+            align-items: center;
+            justify-content: space-between;
+        }
+
+            #file-info-area span#attached-file-name {
+                font-weight: 600;
+                margin-right: 10px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                flex-grow: 1; /* Allow filename to take available space */
+            }
+
+            #file-info-area #clear-file-button {
+                padding: 4px 10px;
+                font-size: 12px;
+                font-weight: 600;
+                color: #cf222e; /* GitHub danger color */
+                background-color: #f6f8fa; /* Lighter background */
+                border: 1px solid rgba(207,34,46,0.4);
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.1s ease-in-out;
+                flex-shrink: 0; /* Prevent shrinking */
+            }
+
+                #file-info-area #clear-file-button:hover {
+                    background-color: #cf222e;
+                    color: white;
+                    border-color: #cf222e;
+                }
 
         .chat-input-area {
             display: flex;
@@ -209,7 +277,7 @@
             border-top: 1px solid #d0d7de;
             background-color: #ffffff;
             gap: 8px;
-            align-items: flex-start;
+            align-items: flex-start; /* Align items to the top, good for multi-line textarea */
         }
 
             .chat-input-area textarea {
@@ -222,6 +290,7 @@
                 font-size: 14px;
                 line-height: 20px;
                 box-shadow: inset 0 1px 0 rgba(27,31,36,0.075);
+                min-height: 38px; /* Ensure min height matches buttons */
             }
 
                 .chat-input-area textarea:focus {
@@ -230,22 +299,36 @@
                     box-shadow: inset 0 1px 0 rgba(27,31,36,0.075), 0 0 0 3px rgba(9,105,218,0.3);
                 }
 
-
-            .chat-input-area button {
+            .chat-input-area button { /* Common style for buttons in input area */
                 border-radius: 6px;
                 padding: 8px 16px;
-                color: white;
                 border: 1px solid rgba(27,31,36,0.15);
                 cursor: pointer;
                 font-size: 14px;
                 font-weight: 600;
                 transition: background-color 0.1s ease-in-out;
-                height: 38px;
-                line-height: 20px;
+                height: 38px; /* Standard height */
+                line-height: 20px; /* Standard line height */
+                flex-shrink: 0; /* Prevent buttons from shrinking */
+            }
+
+        #attach-file-button { /* Specific style for attach button */
+            width: 38px; /* Square size */
+            padding: 0; /* Remove padding for icon */
+            font-size: 1.5em; /* Adjust icon size */
+            color: #24292f;
+            background-color: #f6f8fa;
+            /* border, cursor, radius, transition, height, line-height inherited or set by common button style */
+        }
+
+            #attach-file-button:hover {
+                background-color: #f3f4f6;
+                border-color: rgba(27,31,36,0.25);
             }
 
         #send-button {
             background-color: #2da44e;
+            color: white;
         }
 
             #send-button:hover {
@@ -261,14 +344,14 @@
 
         #reset-chat-button {
             background-color: #cf222e;
+            color: white;
         }
 
             #reset-chat-button:hover {
                 background-color: #a40e26;
             }
 
-
-        /* Markdown specific styles (GitHub-like) */
+        /* Markdown specific styles (GitHub-like) - unchanged */
         .message-content pre {
             background-color: #f6f8fa;
             color: #24292f;
@@ -366,6 +449,9 @@
             <select id="model-select">
                 <option value="">Loading models...</option>
             </select>
+            <label for="ollama-url-input">API URL:</label>
+            <input type="text" id="ollama-url-input">
+            <button id="update-ollama-url-button" title="Update API URL and refresh model list">↻</button>
         </div>
 
         <div class="header-section system-prompt-area">
@@ -382,8 +468,15 @@
             <!-- Messages will be appended here -->
         </div>
 
+        <div id="file-info-area">
+            File: <span id="attached-file-name"></span>
+            <button id="clear-file-button">Remove</button>
+        </div>
+
         <div class="chat-input-area">
-            <textarea id="user-input" placeholder="Type your message (Shift+Enter for new line)..." rows="2"></textarea>
+            <textarea id="user-input" placeholder="Type your message (Shift+Enter for new line)..." rows="1"></textarea>
+            <input type="file" id="file-input-hidden" style="display: none;" accept=".txt,.md,.json,.csv,.py,.js,.html,.css,.xml,text/*,application/pdf,image/*">
+            <button id="attach-file-button" title="Attach File">📎</button>
             <button id="send-button">Send</button>
             <button id="reset-chat-button">Reset Chat</button>
         </div>
@@ -408,7 +501,7 @@
     <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <script>
-        const OLLAMA_API_URL = "http://localhost:11434";
+        let OLLAMA_API_URL = "http://localhost:11434";
 
         const modelSelect = document.getElementById('model-select');
         const systemPromptInput = document.getElementById('system-prompt-input');
@@ -418,11 +511,21 @@
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
         const resetChatButton = document.getElementById('reset-chat-button');
+        const ollamaUrlInput = document.getElementById('ollama-url-input');
+        const updateOllamaUrlButton = document.getElementById('update-ollama-url-button');
+
+        // File attachment elements
+        const attachFileButton = document.getElementById('attach-file-button');
+        const fileInputHidden = document.getElementById('file-input-hidden');
+        const fileInfoArea = document.getElementById('file-info-area');
+        const attachedFileNameSpan = document.getElementById('attached-file-name');
+        const clearFileButton = document.getElementById('clear-file-button');
 
         let conversationHistory = [];
         let isAwaitingResponse = false;
         let currentAiMessageElement = null;
         let currentAiMessageContentDiv = null;
+        let attachedFile = null; // Will store { name: string, content: string, type: string }
 
         const THINK_TAG_PLACEHOLDER_PREFIX = "%%THINK_BLOCK_ID_";
         const THINK_TAG_PLACEHOLDER_SUFFIX = "%%";
@@ -435,11 +538,23 @@
                     Prism.plugins.autoloader.loadLanguages(lang, () => { });
                     return code;
                 }
-                // Fallback for no language or unknown language
                 return Prism.highlight(code, Prism.languages.markup, 'markup');
             },
             gfm: true, breaks: true, pedantic: false, smartLists: true, smartypants: false, headerIds: false, mangle: false
         });
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g,
+                tag => ({
+                    '&': '&',
+                    '<': '<',
+                    '>': '>',
+                    "'": '\'',
+                    '"': '"'
+                }[tag] || tag)
+            );
+        }
 
         async function fetchModels() {
             try {
@@ -449,7 +564,7 @@
                 populateModelSelector(data.models || []);
             } catch (error) {
                 console.error("Error fetching models:", error);
-                modelSelect.innerHTML = '<option value="">Error loading models</option>';
+                modelSelect.innerHTML = `<option value="">Error loading models from ${OLLAMA_API_URL}</option>`;
             }
         }
 
@@ -465,7 +580,7 @@
             });
         }
 
-        function displayMessage(sender, textContent, isStreaming = false) {
+        function displayMessage(sender, textContent, isStreaming = false, attachmentFilename = null) {
             const messageBubble = document.createElement('div');
             messageBubble.classList.add('message-bubble', sender.toLowerCase() + '-message');
 
@@ -473,6 +588,14 @@
             senderDiv.classList.add('message-sender');
             senderDiv.textContent = sender === 'User' ? 'You' : (modelSelect.value.split(':')[0] || 'AI');
             messageBubble.appendChild(senderDiv);
+
+            if (sender === 'User' && attachmentFilename) {
+                const attachmentNoteDiv = document.createElement('div');
+                attachmentNoteDiv.classList.add('attachment-note');
+                // Use escapeHTML for the filename displayed in the chat
+                attachmentNoteDiv.innerHTML = `Attached file: ${escapeHTML(attachmentFilename)}`;
+                messageBubble.appendChild(attachmentNoteDiv);
+            }
 
             const contentDiv = document.createElement('div');
             contentDiv.classList.add('message-content');
@@ -482,13 +605,8 @@
                 currentAiMessageElement = messageBubble;
                 currentAiMessageContentDiv = contentDiv;
             } else {
-                // For non-streaming: User messages and potentially non-streaming AI
-                contentDiv.innerHTML = marked.parse(textContent); // 1. Parse Markdown
-
-                // 2. Apply Prism syntax highlighting to code blocks within this specific contentDiv
+                contentDiv.innerHTML = marked.parse(textContent);
                 Prism.highlightAllUnder(contentDiv);
-
-                // 3. Apply MathJax to render math expressions within this specific contentDiv
                 if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
                     MathJax.typesetPromise([contentDiv])
                         .catch(err => console.warn(`MathJax processing error for ${sender} message:`, err));
@@ -507,14 +625,10 @@
         }
 
         function processThinkTagsInMarkdown(markdown) {
-            const thinkBlocks = [];
-            let blockIdCounter = 0;
+            const thinkBlocks = []; let blockIdCounter = 0;
             const processedMarkdown = markdown.replace(/<think>([\s\S]*?)<\/think>/g, (match, thinkContent) => {
                 const currentId = blockIdCounter++;
-                thinkBlocks.push({
-                    id: `think-${Date.now()}-${currentId}`,
-                    rawContent: thinkContent
-                });
+                thinkBlocks.push({ id: `think-${Date.now()}-${currentId}`, rawContent: thinkContent });
                 return `${THINK_TAG_PLACEHOLDER_PREFIX}${thinkBlocks[thinkBlocks.length - 1].id}${THINK_TAG_PLACEHOLDER_SUFFIX}`;
             });
             return { processedMarkdown, thinkBlocks };
@@ -526,29 +640,25 @@
             thinkBlocks.forEach(block => {
                 const placeholder = `${THINK_TAG_PLACEHOLDER_PREFIX}${block.id}${THINK_TAG_PLACEHOLDER_SUFFIX}`;
                 const thinkSectionHtml = `
-                        <div class="collapsible-think-section">
-                            <div class="think-header" data-think-block-id="${block.id}">
-                                <span>AI Thoughts</span> <span class="toggle-icon">[+]</span>
-                            </div>
-                            <div class="think-content" id="think-content-${block.id}" style="display:none;">
-                                ${marked.parse(block.rawContent)}
-                            </div>
-                        </div>
-                    `;
+                            <div class="collapsible-think-section">
+                                <div class="think-header" data-think-block-id="${block.id}">
+                                    <span>AI Thoughts</span> <span class="toggle-icon">[+]</span>
+                                </div>
+                                <div class="think-content" id="think-content-${block.id}" style="display:none;">
+                                    ${marked.parse(block.rawContent)}
+                                </div>
+                            </div>`;
                 const placeholderRegExp = new RegExp(RegExp.escape(placeholder), 'g');
                 html = html.replace(placeholderRegExp, thinkSectionHtml);
             });
             contentDiv.innerHTML = html;
         }
 
-        if (!RegExp.escape) {
-            RegExp.escape = function (s) { return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); };
-        }
+        if (!RegExp.escape) { RegExp.escape = function (s) { return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); }; }
 
         function addThinkBlockListeners(parentElement) {
             parentElement.querySelectorAll('.think-header').forEach(header => {
                 if (header.dataset.listenerAttached === 'true') return;
-
                 header.addEventListener('click', () => {
                     const blockId = header.dataset.thinkBlockId;
                     const thinkContentElement = parentElement.querySelector(`#think-content-${blockId}`);
@@ -571,14 +681,10 @@
 
         function updateStreamingMessage(chunk) {
             if (currentAiMessageContentDiv) {
-                if (currentAiMessageContentDiv.innerHTML === "<em>Typing...</em>") {
-                    currentAiMessageContentDiv.innerHTML = '';
-                }
+                if (currentAiMessageContentDiv.innerHTML === "<em>Typing...</em>") currentAiMessageContentDiv.innerHTML = '';
                 const currentRawMarkdown = (currentAiMessageContentDiv.dataset.rawMarkdown || "") + chunk;
                 currentAiMessageContentDiv.dataset.rawMarkdown = currentRawMarkdown;
-
                 const { processedMarkdown, thinkBlocks } = processThinkTagsInMarkdown(currentRawMarkdown);
-                // marked.parse() will call Prism highlight via the options
                 currentAiMessageContentDiv.innerHTML = marked.parse(processedMarkdown);
                 renderThinkBlocksHTML(currentAiMessageContentDiv, thinkBlocks);
                 addThinkBlockListeners(currentAiMessageContentDiv);
@@ -590,69 +696,100 @@
             if (currentAiMessageContentDiv && currentAiMessageContentDiv.dataset.rawMarkdown) {
                 const finalRawMarkdown = currentAiMessageContentDiv.dataset.rawMarkdown;
                 const { processedMarkdown, thinkBlocks } = processThinkTagsInMarkdown(finalRawMarkdown);
-
-                // marked.parse() will call Prism highlight via the options
                 currentAiMessageContentDiv.innerHTML = marked.parse(processedMarkdown);
                 renderThinkBlocksHTML(currentAiMessageContentDiv, thinkBlocks);
                 addThinkBlockListeners(currentAiMessageContentDiv);
-
-                // Ensure everything is highlighted and typeset
-                Prism.highlightAllUnder(currentAiMessageContentDiv); // Final pass for Prism
+                Prism.highlightAllUnder(currentAiMessageContentDiv);
                 if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
                     MathJax.typesetPromise([currentAiMessageContentDiv]).catch(err => console.warn("MathJax (final):", err));
                 }
             }
-            currentAiMessageElement = null;
-            currentAiMessageContentDiv = null;
-            scrollToBottom();
+            currentAiMessageElement = null; currentAiMessageContentDiv = null; scrollToBottom();
         }
 
-
         async function sendMessage() {
-            const messageText = userInput.value.trim();
+            const messageText = userInput.value.trim(); // User's typed message
             const selectedModel = modelSelect.value;
             const systemPrompt = systemPromptInput.value.trim();
 
-            if (!messageText || !selectedModel || isAwaitingResponse) return;
+            if ((!messageText && !attachedFile) || !selectedModel || isAwaitingResponse) {
+                if (!selectedModel) alert("Please select a model or ensure API URL is correct.");
+                return;
+            }
 
-            isAwaitingResponse = true;
-            sendButton.disabled = true;
-            userInput.disabled = true;
+            isAwaitingResponse = true; sendButton.disabled = true; userInput.disabled = true; attachFileButton.disabled = true;
 
-            displayMessage("User", messageText); // User message is parsed, Prism'd, and MathJax'd here
+            displayMessage("User", messageText, false, attachedFile ? attachedFile.name : null);
             userInput.value = '';
 
             const aiMessageElements = displayMessage("AI", "<em>Typing...</em>", true);
             currentAiMessageContentDiv = aiMessageElements.contentDiv;
             currentAiMessageContentDiv.dataset.rawMarkdown = "";
 
-            const messagesForApi = [];
-            if (systemPrompt) {
-                messagesForApi.push({ role: "system", content: systemPrompt });
+            let userMessageForApi = messageText;
+            const imagesForApi = [];
+
+            if (attachedFile) {
+                const safeFilename = escapeHTML(attachedFile.name); // Escape filename for API prompt too
+                if (attachedFile.type.startsWith('image/')) {
+                    imagesForApi.push(attachedFile.content.split(',')[1]);
+                    userMessageForApi = `User has attached an image named "${safeFilename}". Their typed message is: ${messageText || "(No typed message)"}`;
+                } else {
+                    userMessageForApi = `The user has provided the following text and also attached a file named "${safeFilename}". Please consider both for your response.
+
+Attached file content for "${safeFilename}":
+\`\`\`
+${attachedFile.content}
+\`\`\`
+
+User's typed message:
+${messageText}`;
+                }
             }
-            messagesForApi.push(...conversationHistory);
-            messagesForApi.push({ role: "user", content: messageText });
+
+            const messagesForApiPayload = [];
+            if (systemPrompt) messagesForApiPayload.push({ role: "system", content: systemPrompt });
+            messagesForApiPayload.push(...conversationHistory);
+            const currentUserMessagePayload = { role: "user", content: userMessageForApi };
+            if (imagesForApi.length > 0) {
+                currentUserMessagePayload.images = imagesForApi;
+            }
+            messagesForApiPayload.push(currentUserMessagePayload);
 
             try {
+                const requestBody = {
+                    model: selectedModel,
+                    messages: messagesForApiPayload,
+                    stream: true
+                };
+
                 const response = await fetch(`${OLLAMA_API_URL}/api/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ model: selectedModel, messages: messagesForApi, stream: true }),
+                    body: JSON.stringify(requestBody),
                 });
 
                 if (!response.ok) {
                     const errorBody = await response.text();
                     throw new Error(`API error: ${response.status} ${response.statusText}. ${errorBody}`);
                 }
-                conversationHistory.push({ role: "user", content: messageText });
+
+                let historyUserContent = messageText;
+                if (attachedFile) {
+                    const safeFilenameForHistory = escapeHTML(attachedFile.name);
+                    if (attachedFile.type.startsWith('image/')) {
+                        historyUserContent = `(Image: ${safeFilenameForHistory}) ${messageText}`;
+                    } else {
+                        historyUserContent = `(File: ${safeFilenameForHistory}) ${messageText}`;
+                    }
+                }
+                conversationHistory.push({ role: "user", content: historyUserContent });
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
                 let aiResponseContent = "";
 
-                if (currentAiMessageContentDiv.innerHTML === "<em>Typing...</em>") {
-                    currentAiMessageContentDiv.innerHTML = '';
-                }
+                if (currentAiMessageContentDiv.innerHTML === "<em>Typing...</em>") currentAiMessageContentDiv.innerHTML = '';
 
                 while (true) {
                     const { done, value } = await reader.read();
@@ -675,59 +812,104 @@
                 console.error("Error sending message:", error);
                 const errorMessage = `**Error:** ${error.message || "An unknown error occurred."}`;
                 if (currentAiMessageContentDiv) {
-                    currentAiMessageContentDiv.innerHTML = marked.parse(errorMessage); // Parse error message too
-                    Prism.highlightAllUnder(currentAiMessageContentDiv); // Highlight if error has code
+                    currentAiMessageContentDiv.innerHTML = marked.parse(errorMessage);
+                    Prism.highlightAllUnder(currentAiMessageContentDiv);
                     currentAiMessageContentDiv.dataset.rawMarkdown = errorMessage;
-                } else {
-                    displayMessage("AI", errorMessage);
-                }
+                } else { displayMessage("AI", errorMessage); }
             } finally {
                 finalizeAiMessage();
+                clearAttachedFile();
                 isAwaitingResponse = false;
                 sendButton.disabled = false;
                 userInput.disabled = false;
+                attachFileButton.disabled = false;
                 userInput.focus();
             }
+        }
+
+        function clearAttachedFile() {
+            attachedFile = null;
+            fileInputHidden.value = '';
+            fileInfoArea.style.display = 'none';
+            attachedFileNameSpan.textContent = '';
         }
 
         function resetChat() {
             chatMessagesArea.innerHTML = '';
             conversationHistory = [];
             if (currentAiMessageContentDiv) {
-                currentAiMessageContentDiv.innerHTML = '';
-                currentAiMessageContentDiv.dataset.rawMarkdown = '';
+                currentAiMessageContentDiv.innerHTML = ''; currentAiMessageContentDiv.dataset.rawMarkdown = '';
             }
             finalizeAiMessage();
-            isAwaitingResponse = false;
-            sendButton.disabled = false;
-            userInput.disabled = false;
-            userInput.focus();
-            console.log("Chat reset.");
+            clearAttachedFile();
+            isAwaitingResponse = false; sendButton.disabled = false; userInput.disabled = false; attachFileButton.disabled = false;
+            userInput.focus(); console.log("Chat reset.");
         }
 
-        function scrollToBottom() {
-            chatMessagesArea.scrollTop = chatMessagesArea.scrollHeight;
-        }
+        function scrollToBottom() { chatMessagesArea.scrollTop = chatMessagesArea.scrollHeight; }
 
         sendButton.addEventListener('click', sendMessage);
         resetChatButton.addEventListener('click', resetChat);
         userInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
-            }
+            if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }
         });
 
         systemPromptToggle.addEventListener('click', () => {
             const isHidden = systemPromptContent.style.display === 'none';
             systemPromptContent.style.display = isHidden ? 'block' : 'none';
             systemPromptToggle.querySelector('.toggle-icon').textContent = isHidden ? '[-]' : '[+]';
-            if (isHidden) {
-                systemPromptInput.focus();
+            if (isHidden) systemPromptInput.focus();
+        });
+
+        updateOllamaUrlButton.addEventListener('click', () => {
+            const newUrl = ollamaUrlInput.value.trim();
+            if (newUrl && (newUrl.startsWith('http://') || newUrl.startsWith('https://'))) {
+                OLLAMA_API_URL = newUrl; console.log(`Ollama API URL updated to: ${OLLAMA_API_URL}`);
+                modelSelect.innerHTML = `<option value="">Refreshing models from ${OLLAMA_API_URL}...</option>`;
+                fetchModels();
+            } else {
+                alert("Please enter a valid Ollama API URL (e.g., http://localhost:11434).");
+                ollamaUrlInput.value = OLLAMA_API_URL;
             }
         });
 
+        attachFileButton.addEventListener('click', () => fileInputHidden.click());
+
+        fileInputHidden.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    attachedFile = {
+                        name: file.name,
+                        content: e.target.result,
+                        type: file.type
+                    };
+                    // Use escapeHTML when displaying filename in the UI
+                    attachedFileNameSpan.textContent = escapeHTML(file.name);
+                    fileInfoArea.style.display = 'flex';
+                };
+                reader.onerror = (e) => {
+                    console.error("Error reading file:", e);
+                    alert("Error reading file: " + escapeHTML(file.name)); // Escape here too
+                    clearAttachedFile();
+                };
+
+                if (file.type.startsWith('image/')) {
+                    reader.readAsDataURL(file);
+                } else if (file.type.startsWith('text/') || file.type === 'application/json' || file.type === 'application/xml' || !file.type) {
+                    reader.readAsText(file);
+                } else {
+                    alert(`File type "${escapeHTML(file.type)}" may not be optimally supported. It will be treated as text if possible, or ignored if binary.`);
+                    reader.readAsText(file);
+                }
+            }
+        });
+
+        clearFileButton.addEventListener('click', clearAttachedFile);
+
         document.addEventListener('DOMContentLoaded', () => {
+            ollamaUrlInput.value = OLLAMA_API_URL;
             fetchModels();
             userInput.focus();
             Prism.plugins.autoloader.languages_path = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/';
