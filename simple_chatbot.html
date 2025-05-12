@@ -26,7 +26,7 @@
             flex-direction: column;
             height: 95vh;
             width: 100%;
-            max-width: 800px;
+            max-width: 1200px;
             border: 1px solid #d0d7de;
             border-radius: 6px;
             box-shadow: 0 1px 0 rgba(27,31,36,0.04), 0 3px 6px rgba(27,31,36,0.1);
@@ -40,34 +40,36 @@
             border-bottom: 1px solid #d0d7de;
         }
 
-        .header-section label:not(.collapsible-header-label) {
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: block;
-            font-size: 14px;
-        }
+            .header-section label:not(.collapsible-header-label) {
+                font-weight: 600;
+                margin-bottom: 8px;
+                display: block;
+                font-size: 14px;
+            }
 
-        .header-section select,
-        .header-section textarea {
-            width: 100%;
-            padding: 8px 12px;
-            font-size: 14px;
-            line-height: 20px;
-            color: #24292f;
-            background-color: #ffffff;
-            border: 1px solid #d0d7de;
-            border-radius: 6px;
-            box-shadow: inset 0 1px 0 rgba(27,31,36,0.075);
-            vertical-align: middle;
-            box-sizing: border-box;
-        }
+            .header-section select,
+            .header-section textarea,
+            .header-section input[type="text"] {
+                width: 100%;
+                padding: 8px 12px;
+                font-size: 14px;
+                line-height: 20px;
+                color: #24292f;
+                background-color: #ffffff;
+                border: 1px solid #d0d7de;
+                border-radius: 6px;
+                box-shadow: inset 0 1px 0 rgba(27,31,36,0.075);
+                vertical-align: middle;
+                box-sizing: border-box;
+            }
 
-        .header-section select:focus,
-        .header-section textarea:focus {
-            border-color: #0969da;
-            outline: none;
-            box-shadow: inset 0 1px 0 rgba(27,31,36,0.075), 0 0 0 3px rgba(9,105,218,0.3);
-        }
+                .header-section select:focus,
+                .header-section textarea:focus,
+                .header-section input[type="text"]:focus {
+                    border-color: #0969da;
+                    outline: none;
+                    box-shadow: inset 0 1px 0 rgba(27,31,36,0.075), 0 0 0 3px rgba(9,105,218,0.3);
+                }
 
         .model-selector {
             display: flex;
@@ -75,14 +77,37 @@
             gap: 10px;
         }
 
-        .model-selector label {
-            margin-bottom: 0;
+            .model-selector label {
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+
+            .model-selector select,
+            .model-selector input[type="text"] {
+                flex-grow: 1;
+                width: auto;
+            }
+
+        #update-ollama-url-button {
             flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            font-size: 1.5em;
+            line-height: 38px;
+            text-align: center;
+            color: #24292f;
+            background-color: #f6f8fa;
+            border: 1px solid rgba(27,31,36,0.15);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
         }
 
-        .model-selector select {
-            flex-grow: 1;
-        }
+            #update-ollama-url-button:hover {
+                background-color: #f3f4f6;
+                border-color: rgba(27,31,36,0.25);
+            }
 
         .system-prompt-area textarea {
             min-height: 60px;
@@ -101,9 +126,9 @@
             color: #24292f;
         }
 
-        .collapsible-header:hover {
-            color: #0969da;
-        }
+            .collapsible-header:hover {
+                color: #0969da;
+            }
 
         .toggle-icon {
             font-family: monospace;
@@ -132,19 +157,37 @@
             border: 1px solid #d0d7de;
         }
 
-        .message-bubble .message-sender {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: #57606a;
-        }
+            .message-bubble .message-sender {
+                font-size: 13px;
+                font-weight: 600;
+                margin-bottom: 4px;
+                color: #57606a;
+            }
 
-        .message-bubble .message-timestamp {
-            font-size: 12px;
-            color: #57606a;
-            text-align: right;
-            margin-top: 8px;
-        }
+            .message-bubble .message-timestamp {
+                font-size: 12px;
+                color: #57606a;
+                text-align: right;
+                margin-top: 8px;
+            }
+
+            .message-bubble .attachment-note {
+                font-size: 0.85em;
+                color: #57606a;
+                margin-bottom: 6px;
+                font-style: italic;
+            }
+
+            .message-bubble .message-content small em,
+            .message-bubble .message-content small {
+                font-size: 0.85em;
+                color: #57606a;
+                display: block;
+                white-space: pre-wrap;
+                margin-top: 8px;
+                font-style: italic;
+            }
+
 
         .user-message {
             background-color: #EFF6FF;
@@ -160,9 +203,9 @@
             align-self: flex-start;
         }
 
-        .ai-message em {
-            color: #57606a;
-        }
+            .ai-message em {
+                color: #57606a;
+            }
 
         .collapsible-think-section {
             margin: 10px 0;
@@ -171,51 +214,153 @@
             background-color: #ffffff;
         }
 
-        .collapsible-think-section .think-header {
+            .collapsible-think-section .think-header {
+                cursor: pointer;
+                background-color: #e6f7ff;
+                color: #0366d6;
+                padding: 6px 10px;
+                font-size: 0.9em;
+                font-weight: 500;
+                border-bottom: 1px dashed #0969da;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+                .collapsible-think-section .think-header:hover {
+                    background-color: #ccebff;
+                }
+
+            .collapsible-think-section .think-content {
+                padding: 10px;
+                background-color: #f6f8fa;
+                border-top: none;
+                font-size: 0.95em;
+            }
+
+                .collapsible-think-section .think-content pre {
+                    font-size: 80%;
+                }
+
+        #file-management-area {
+            padding: 10px;
+            border-top: 1px solid #d0d7de;
+            border-bottom: 1px solid #d0d7de;
+            background-color: #f9f9f9;
+            text-align: center;
             cursor: pointer;
-            background-color: #e6f7ff;
-            color: #0366d6;
-            padding: 6px 10px;
-            font-size: 0.9em;
-            font-weight: 500;
-            border-bottom: 1px dashed #0969da;
+            transition: background-color 0.2s ease;
+        }
+
+            #file-management-area.drag-over {
+                background-color: #e8f0fe;
+                border: 2px dashed #0366d6;
+            }
+
+            #file-management-area.disabled-drop-zone {
+                pointer-events: none;
+                opacity: 0.7;
+            }
+
+        #drop-zone-instruction {
+            margin: 5px 0;
+            color: #57606a;
+            font-size: 13px;
+        }
+
+        #selected-files-container {
+            margin-top: 8px;
+            text-align: left;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .file-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 5px 8px;
+            background-color: #ffffff;
+            border: 1px solid #d0d7de;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #24292f;
         }
 
-        .collapsible-think-section .think-header:hover {
-            background-color: #ccebff;
+            .file-item span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                margin-right: 8px;
+                flex-grow: 1;
+            }
+
+        .remove-file-btn {
+            background: none;
+            border: 1px solid transparent;
+            color: #cf222e;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 2px 5px;
+            border-radius: 4px;
+            line-height: 1;
         }
 
-        .collapsible-think-section .think-content {
-            padding: 10px;
-            background-color: #f6f8fa;
-            border-top: none;
-            font-size: 0.95em;
-        }
+            .remove-file-btn:hover {
+                color: white;
+                background-color: #cf222e;
+                border-color: #a40e26;
+            }
 
-        .collapsible-think-section .think-content pre {
-            font-size: 80%;
-        }
 
         .chat-input-area {
             display: flex;
-            flex-direction: column;
             padding: 16px;
-            border-top: 1px solid #d0d7de;
             background-color: #ffffff;
             gap: 8px;
+            align-items: flex-start;
         }
 
-        .input-controls {
-             display: flex;
-             gap: 8px;
-             align-items: flex-start;
+        .textarea-wrapper { /* New wrapper for textarea and highlighter */
+            position: relative;
+            flex-grow: 1;
+            font-family: inherit; /* Ensure font propagates */
+            font-size: 14px;
+            line-height: 20px;
         }
+
+        #user-input-highlighter {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 8px 12px; /* Match textarea */
+            border: 1px solid transparent; /* Match textarea border for layout */
+            border-radius: 6px; /* Match textarea */
+            box-sizing: border-box;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow: hidden; /* Match textarea scroll behavior */
+            pointer-events: none; /* Click through */
+            z-index: 0;
+            color: transparent; /* Base text is transparent, spans provide visual */
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
+
+        .highlighted-url {
+            background-color: rgba(173, 216, 230, 0.4);
+            border-radius: 3px;
+        }
+
 
         .chat-input-area textarea {
-            flex-grow: 1;
+            /* flex-grow: 1; -- Handled by wrapper */
+            width: 100%; /* Fill wrapper */
+            /* height: 100%; -- Let min-height and content define height */
             resize: none;
             border-radius: 6px;
             padding: 8px 12px;
@@ -224,19 +369,23 @@
             font-size: 14px;
             line-height: 20px;
             box-shadow: inset 0 1px 0 rgba(27,31,36,0.075);
-            min-height: 40px;
+            min-height: 38px; /* This is key for sizing */
+            box-sizing: border-box; /* Ensure padding/border are included in width/height */
+            /* For highlighter */
+            position: relative;
+            z-index: 1;
+            background-color: transparent !important; /* Crucial for highlighter visibility */
         }
 
-        .chat-input-area textarea:focus {
-            border-color: #0969da;
-            outline: none;
-            box-shadow: inset 0 1px 0 rgba(27,31,36,0.075), 0 0 0 3px rgba(9,105,218,0.3);
-        }
+            .chat-input-area textarea:focus {
+                border-color: #0969da;
+                outline: none;
+                box-shadow: inset 0 1px 0 rgba(27,31,36,0.075), 0 0 0 3px rgba(9,105,218,0.3);
+            }
 
-        .chat-input-area button { /* General style for buttons in input area */
+        .chat-input-area button {
             border-radius: 6px;
             padding: 8px 16px;
-            color: white;
             border: 1px solid rgba(27,31,36,0.15);
             cursor: pointer;
             font-size: 14px;
@@ -244,105 +393,64 @@
             transition: background-color 0.1s ease-in-out;
             height: 38px;
             line-height: 20px;
-            white-space: nowrap;
+            flex-shrink: 0;
         }
-
-        .file-upload-area {
-            border: 2px dashed #d0d7de;
-            border-radius: 6px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            background-color: #f6f8fa;
-            transition: background-color 0.2s ease, border-color 0.2s ease;
-            margin-bottom: 8px;
-        }
-        .file-upload-area.dragover {
-            background-color: #e6f7ff;
-            border-color: #0969da;
-        }
-        .file-upload-area p {
-            margin: 0;
-            font-size: 14px;
-            color: #57606a;
-        }
-
-
-        .selected-file-container {
-            margin-top: 10px;
-            display: flex; /* Changed to flex for better alignment */
-            flex-direction: column; /* Stack items vertically */
-            align-items: center; /* Center items horizontally */
-            gap: 8px;
-        }
-
-        .selected-file-info {
-            font-size: 12px;
-            color: #24292f;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background-color: #f6f8fa;
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: 1px solid #d0d7de;
-        }
-        .selected-file-info span { /* For filename */
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        #image-preview {
-            max-width: 100px; /* Adjust as needed */
-            max-height: 100px; /* Adjust as needed */
-            border-radius: 4px;
-            border: 1px solid #d0d7de;
-            object-fit: cover; /* Scales the image nicely */
-        }
-
-
-        #remove-image-button {
-            background: none;
-            border: none;
-            color: #cf222e;
-            cursor: pointer;
-            padding: 2px 4px; /* Slightly more clickable area */
-            font-size: 16px; /* Make X slightly bigger */
-            font-weight: bold;
-            line-height: 1;
-        }
-         #remove-image-button:hover {
-            color: #a40e26;
-         }
-
 
         #send-button {
             background-color: #2da44e;
+            color: white;
         }
 
-        #send-button:hover {
-            background-color: #2c974b;
-        }
+            #send-button:hover {
+                background-color: #2c974b;
+            }
 
-        #send-button:disabled {
-            background-color: #94d3a2;
-            color: rgba(255,255,255,0.8);
-            border-color: rgba(27,31,36,0.05);
-            cursor: not-allowed;
-        }
+            #send-button:disabled {
+                background-color: #94d3a2;
+                color: rgba(255,255,255,0.8);
+                border-color: rgba(27,31,36,0.05);
+                cursor: not-allowed;
+            }
 
         #reset-chat-button {
             background-color: #cf222e;
+            color: white;
         }
 
-        #reset-chat-button:hover {
-            background-color: #a40e26;
+            #reset-chat-button:hover {
+                background-color: #a40e26;
+            }
+
+        .scrape-url-controls {
+            padding: 0px 16px 10px 16px;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+            .scrape-url-controls label {
+                color: #57606a;
+                cursor: pointer;
+                user-select: none;
+                vertical-align: middle;
+            }
+
+            .scrape-url-controls input[type="checkbox"] {
+                vertical-align: middle;
+                margin-top: 0;
+            }
+
+        #scrape-status {
+            font-size: 12px;
+            margin-left: 10px;
+            color: #0366d6;
+            flex-grow: 1;
+            text-align: right;
         }
 
 
-        /* Markdown specific styles */
         .message-content pre {
             background-color: #f6f8fa;
             color: #24292f;
@@ -363,18 +471,73 @@
             border-radius: 6px;
             font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
         }
-        /* ... other markdown styles remain unchanged ... */
-        .message-content table { border-collapse: collapse; margin: 1em 0; display: block; width: max-content; max-width: 100%; overflow: auto; }
-        .message-content th, .message-content td { border: 1px solid #d0d7de; padding: 6px 13px; text-align: left; }
-        .message-content th { background-color: #f6f8fa; font-weight: 600; }
-        .message-content blockquote { border-left: .25em solid #d0d7de; padding: 0 1em; color: #57606a; margin-left: 0; margin-right: 0; }
-        .message-content hr { height: .25em; padding: 0; margin: 24px 0; background-color: #d0d7de; border: 0; }
-        .message-content ul, .message-content ol { padding-left: 2em; }
-        .message-content h1, .message-content h2, .message-content h3, .message-content h4, .message-content h5, .message-content h6 { margin-top: 24px; margin-bottom: 16px; font-weight: 600; line-height: 1.25; }
-        .message-content h1 { font-size: 2em; padding-bottom: .3em; border-bottom: 1px solid #d8dee4; }
-        .message-content h2 { font-size: 1.5em; padding-bottom: .3em; border-bottom: 1px solid #d8dee4; }
-        .message-content h3 { font-size: 1.25em; }
-        .message-content h4 { font-size: 1em; }
+
+        .message-content table {
+            border-collapse: collapse;
+            margin: 1em 0;
+            display: block;
+            width: max-content;
+            max-width: 100%;
+            overflow: auto;
+        }
+
+        .message-content th, .message-content td {
+            border: 1px solid #d0d7de;
+            padding: 6px 13px;
+            text-align: left;
+        }
+
+        .message-content th {
+            background-color: #f6f8fa;
+            font-weight: 600;
+        }
+
+        .message-content blockquote {
+            border-left: .25em solid #d0d7de;
+            padding: 0 1em;
+            color: #57606a;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .message-content hr {
+            height: .25em;
+            padding: 0;
+            margin: 24px 0;
+            background-color: #d0d7de;
+            border: 0;
+        }
+
+        .message-content ul, .message-content ol {
+            padding-left: 2em;
+        }
+
+        .message-content h1, .message-content h2, .message-content h3, .message-content h4, .message-content h5, .message-content h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+
+        .message-content h1 {
+            font-size: 2em;
+            padding-bottom: .3em;
+            border-bottom: 1px solid #d8dee4;
+        }
+
+        .message-content h2 {
+            font-size: 1.5em;
+            padding-bottom: .3em;
+            border-bottom: 1px solid #d8dee4;
+        }
+
+        .message-content h3 {
+            font-size: 1.25em;
+        }
+
+        .message-content h4 {
+            font-size: 1em;
+        }
     </style>
 </head>
 <body>
@@ -385,6 +548,9 @@
             <select id="model-select">
                 <option value="">Loading models...</option>
             </select>
+            <label for="ollama-url-input">API URL:</label>
+            <input type="text" id="ollama-url-input">
+            <button id="update-ollama-url-button" title="Update API URL and refresh model list">↻</button>
         </div>
 
         <div class="header-section system-prompt-area">
@@ -398,25 +564,27 @@
         </div>
 
         <div class="chat-messages" id="chat-messages-area">
+        </div>
+
+        <div id="file-management-area">
+            <input type="file" id="file-input-hidden" style="display: none;" accept=".txt,.md,.json,.csv,.py,.js,.html,.css,.xml,text/*,application/pdf,image/*" multiple>
+            <div id="selected-files-container">
             </div>
+            <p id="drop-zone-instruction">Drag & Drop Files Here or Click to Upload</p>
+        </div>
 
         <div class="chat-input-area">
-            <div id="file-upload-zone" class="file-upload-area">
-                <p>Drag & Drop Image Here or Click to Upload</p>
-                <input type="file" id="image-file-input" accept="image/*" style="display: none;">
-                <div id="selected-file-container" style="display: none;">
-                    <img id="image-preview" src="#" alt="Image preview" />
-                    <div class="selected-file-info">
-                       Selected: <span id="selected-file-name"></span>
-                       <button id="remove-image-button" title="Remove image">&times;</button>
-                   </div>
-               </div>
+            <div class="textarea-wrapper">
+                <div id="user-input-highlighter"></div>
+                <textarea id="user-input" placeholder="Type your message (Shift+Enter for new line)..." rows="1"></textarea>
             </div>
-            <div class="input-controls">
-                <textarea id="user-input" placeholder="Type your message (Shift+Enter for new line)..." rows="2"></textarea>
-                <button id="send-button">Send</button>
-                <button id="reset-chat-button">Reset Chat</button>
-            </div>
+            <button id="send-button">Send</button>
+            <button id="reset-chat-button">Reset Chat</button>
+        </div>
+        <div class="scrape-url-controls">
+            <input type="checkbox" id="scrape-url-checkbox" name="scrape-url-checkbox">
+            <label for="scrape-url-checkbox">Scrape URL content</label>
+            <span id="scrape-status"></span>
         </div>
     </div>
 
@@ -424,6 +592,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
         window.MathJax = {
             tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
@@ -433,8 +602,17 @@
     </script>
     <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        const OLLAMA_API_URL = "http://localhost:11434";
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        } else {
+            console.warn("pdf.js library not loaded. PDF parsing will not be available.");
+        }
+    </script>
+
+    <script>
+        let OLLAMA_API_URL = "http://localhost:11434";
 
         const modelSelect = document.getElementById('model-select');
         const systemPromptInput = document.getElementById('system-prompt-input');
@@ -444,20 +622,25 @@
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
         const resetChatButton = document.getElementById('reset-chat-button');
+        const ollamaUrlInput = document.getElementById('ollama-url-input');
+        const updateOllamaUrlButton = document.getElementById('update-ollama-url-button');
 
-        const fileUploadZone = document.getElementById('file-upload-zone');
-        const imageFileInput = document.getElementById('image-file-input');
-        const selectedFileContainer = document.getElementById('selected-file-container');
-        const selectedFileNameElement = document.getElementById('selected-file-name');
-        const imagePreviewElement = document.getElementById('image-preview');
-        const removeImageButton = document.getElementById('remove-image-button');
+        const fileManagementArea = document.getElementById('file-management-area');
+        const fileInputHidden = document.getElementById('file-input-hidden');
+        const selectedFilesContainer = document.getElementById('selected-files-container');
+        const dropZoneInstruction = document.getElementById('drop-zone-instruction');
+
+        const scrapeUrlCheckbox = document.getElementById('scrape-url-checkbox');
+        const scrapeStatusElement = document.getElementById('scrape-status');
+        const userInputHighlighter = document.getElementById('user-input-highlighter');
+
 
         let conversationHistory = [];
         let isAwaitingResponse = false;
         let currentAiMessageElement = null;
         let currentAiMessageContentDiv = null;
-        let selectedFileBase64 = null;
-        let selectedFileName = "";
+        let attachedFiles = [];
+        let userScrolledUp = false; // For conditional autoscroll
 
         const THINK_TAG_PLACEHOLDER_PREFIX = "%%THINK_BLOCK_ID_";
         const THINK_TAG_PLACEHOLDER_SUFFIX = "%%";
@@ -467,14 +650,32 @@
                 if (Prism.languages[lang]) {
                     return Prism.highlight(code, Prism.languages[lang], lang);
                 } else if (lang) {
-                    Prism.plugins.autoloader.loadLanguages(lang, () => { }); // Async, might not highlight immediately
-                    return code; // Return unhighlighted code for now, autoloader will kick in
+                    Prism.plugins.autoloader.loadLanguages(lang, () => { }); // Auto-load
+                    return code; // Return unhighlighted code initially, Prism will highlight async
                 }
-                // Fallback for no language or unknown language
-                return Prism.highlight(code, Prism.languages.markup, 'markup');
+                return Prism.highlight(code, Prism.languages.markup, 'markup'); // Default
             },
             gfm: true, breaks: true, pedantic: false, smartLists: true, smartypants: false, headerIds: false, mangle: false
         });
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g,
+                tag => ({
+                    '&': '&', // Corrected: '&' should be '&'
+                    '<': '<',
+                    '>': '>',
+                    "'": '\'',
+                    '"': '"'
+                }[tag] || tag)
+            );
+        }
+
+        if (!RegExp.escape) {
+            RegExp.escape = function (s) {
+                return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            };
+        }
 
         async function fetchModels() {
             try {
@@ -484,31 +685,23 @@
                 populateModelSelector(data.models || []);
             } catch (error) {
                 console.error("Error fetching models:", error);
-                modelSelect.innerHTML = '<option value="">Error loading models</option>';
+                modelSelect.innerHTML = `<option value="">Error loading models from ${OLLAMA_API_URL}</option>`;
             }
         }
 
         function populateModelSelector(models) {
-            modelSelect.innerHTML = ''; // Clear existing options
+            modelSelect.innerHTML = '';
             if (models.length === 0) {
-                modelSelect.innerHTML = '<option value="">No models found</option>';
-                return;
+                modelSelect.innerHTML = '<option value="">No models found</option>'; return;
             }
-            // Add a default "Select a model" option if you like
-            // const defaultOption = document.createElement('option');
-            // defaultOption.value = "";
-            // defaultOption.textContent = "Select a model";
-            // modelSelect.appendChild(defaultOption);
-
             models.forEach(model => {
                 const option = document.createElement('option');
-                option.value = model.name;
-                option.textContent = model.name;
+                option.value = model.name; option.textContent = model.name;
                 modelSelect.appendChild(option);
             });
         }
 
-        function displayMessage(sender, textContent, isStreaming = false, imageName = null) {
+        function displayMessage(sender, mainText, scrapedText = null, isStreaming = false, attachedFilenamesArray = null) {
             const messageBubble = document.createElement('div');
             messageBubble.classList.add('message-bubble', sender.toLowerCase() + '-message');
 
@@ -517,13 +710,12 @@
             senderDiv.textContent = sender === 'User' ? 'You' : (modelSelect.value.split(':')[0] || 'AI');
             messageBubble.appendChild(senderDiv);
 
-            if (sender === 'User' && imageName) {
-                const imageNotice = document.createElement('div');
-                imageNotice.style.fontSize = '0.8em';
-                imageNotice.style.fontStyle = 'italic';
-                imageNotice.style.marginBottom = '5px';
-                imageNotice.textContent = `(with image: ${imageName})`;
-                messageBubble.appendChild(imageNotice);
+            if (sender === 'User' && attachedFilenamesArray && attachedFilenamesArray.length > 0) {
+                const attachmentNoteDiv = document.createElement('div');
+                attachmentNoteDiv.classList.add('attachment-note');
+                const filenamesString = attachedFilenamesArray.map(name => escapeHTML(name)).join(', ');
+                attachmentNoteDiv.innerHTML = `Attached file(s): ${filenamesString}`;
+                messageBubble.appendChild(attachmentNoteDiv);
             }
 
             const contentDiv = document.createElement('div');
@@ -533,8 +725,9 @@
                 contentDiv.innerHTML = "<em>Typing...</em>";
                 currentAiMessageElement = messageBubble;
                 currentAiMessageContentDiv = contentDiv;
+                if (scrapeStatusElement) scrapeStatusElement.textContent = "";
             } else {
-                contentDiv.innerHTML = marked.parse(textContent);
+                contentDiv.innerHTML = marked.parse(mainText);
                 Prism.highlightAllUnder(contentDiv);
                 if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
                     MathJax.typesetPromise([contentDiv])
@@ -542,6 +735,17 @@
                 }
             }
             messageBubble.appendChild(contentDiv);
+
+            if (sender === 'User' && scrapedText && scrapedText.trim() !== "") {
+                const scrapedInfoContainer = document.createElement('div');
+                scrapedInfoContainer.classList.add('message-content');
+                const smallElement = document.createElement('small');
+                smallElement.innerHTML = marked.parse(scrapedText.trim());
+                Prism.highlightAllUnder(smallElement);
+                scrapedInfoContainer.appendChild(smallElement);
+                messageBubble.appendChild(scrapedInfoContainer);
+            }
+
 
             const timestampDiv = document.createElement('div');
             timestampDiv.classList.add('message-timestamp');
@@ -554,8 +758,7 @@
         }
 
         function processThinkTagsInMarkdown(markdown) {
-            const thinkBlocks = [];
-            let blockIdCounter = 0;
+            const thinkBlocks = []; let blockIdCounter = 0;
             const processedMarkdown = markdown.replace(/<think>([\s\S]*?)<\/think>/g, (match, thinkContent) => {
                 const currentId = blockIdCounter++;
                 thinkBlocks.push({ id: `think-${Date.now()}-${currentId}`, rawContent: thinkContent });
@@ -570,23 +773,20 @@
             thinkBlocks.forEach(block => {
                 const placeholder = `${THINK_TAG_PLACEHOLDER_PREFIX}${block.id}${THINK_TAG_PLACEHOLDER_SUFFIX}`;
                 const thinkSectionHtml = `
-                    <div class="collapsible-think-section">
-                        <div class="think-header" data-think-block-id="${block.id}">
-                            <span>AI Thoughts</span> <span class="toggle-icon">[+]</span>
-                        </div>
-                        <div class="think-content" id="think-content-${block.id}" style="display:none;">
-                            ${marked.parse(block.rawContent)}
-                        </div>
-                    </div>`;
+                                        <div class="collapsible-think-section">
+                                            <div class="think-header" data-think-block-id="${block.id}">
+                                                <span>AI Thoughts</span> <span class="toggle-icon">[+]</span>
+                                            </div>
+                                            <div class="think-content" id="think-content-${block.id}" style="display:none;">
+                                                ${marked.parse(block.rawContent)}
+                                            </div>
+                                        </div>`;
                 const placeholderRegExp = new RegExp(RegExp.escape(placeholder), 'g');
                 html = html.replace(placeholderRegExp, thinkSectionHtml);
             });
             contentDiv.innerHTML = html;
         }
 
-        if (!RegExp.escape) {
-            RegExp.escape = function (s) { return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); };
-        }
 
         function addThinkBlockListeners(parentElement) {
             parentElement.querySelectorAll('.think-header').forEach(header => {
@@ -636,49 +836,160 @@
                     MathJax.typesetPromise([currentAiMessageContentDiv]).catch(err => console.warn("MathJax (final):", err));
                 }
             }
-            currentAiMessageElement = null;
-            currentAiMessageContentDiv = null;
-            scrollToBottom();
+            currentAiMessageElement = null; currentAiMessageContentDiv = null;
+            userScrolledUp = false; // Reset scroll lock when message is done
+            scrollToBottom(); // Ensure it's at bottom if not locked by prior user scroll
+        }
+
+        function extractUrls(text) {
+            if (!text) return [];
+            const urlRegex = /\bhttps?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
+            const urls = text.match(urlRegex);
+            return urls ? Array.from(new Set(urls)) : [];
         }
 
         async function sendMessage() {
+            userScrolledUp = false; // Reset user scroll lock for new message sequence
             const messageText = userInput.value.trim();
             const selectedModel = modelSelect.value;
             const systemPrompt = systemPromptInput.value.trim();
+            const shouldScrapeUrls = scrapeUrlCheckbox.checked;
 
-            if ((!messageText && !selectedFileBase64) || !selectedModel || isAwaitingResponse) {
-                if (!selectedModel) alert("Please select a model.");
-                else if (!messageText && !selectedFileBase64) alert("Please type a message or upload an image.");
+            let scrapedUrlContentForApi = "";
+            let scrapedPreambleForUserDisplay = "";
+
+            if (shouldScrapeUrls && messageText) {
+                const urls = extractUrls(messageText);
+                if (urls.length > 0) {
+                    scrapeStatusElement.textContent = "Scraping URLs...";
+                    sendButton.disabled = true;
+
+                    let scrapedCount = 0;
+                    let failedScrapes = 0;
+
+                    for (const url of urls) {
+                        scrapeStatusElement.textContent = `Scraping: ${url.substring(0, 50)}...`;
+                        try {
+                            const proxyFetchUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+                            const response = await fetch(proxyFetchUrl, {
+                                headers: { 'Accept': 'text/html,text/plain' }
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`Failed to fetch (proxy): ${response.status} ${response.statusText}`);
+                            }
+                            const contentType = response.headers.get("content-type");
+                            if (contentType && (contentType.includes("text/html") || contentType.includes("text/plain") || contentType.includes("application/xml") || contentType.includes("application/json"))) {
+                                const htmlContent = await response.text();
+                                scrapedUrlContentForApi += `\n\nContent from ${escapeHTML(url)}:\n\`\`\`html\n${escapeHTML(htmlContent)}\n\`\`\`\n`; // Escape HTML content
+                                scrapedPreambleForUserDisplay += `Successfully scraped: \`${escapeHTML(url)}\``;
+                                scrapedCount++;
+                            } else {
+                                scrapedPreambleForUserDisplay += `Skipped (not text/HTML): \`${escapeHTML(url)}\` (Type: ${contentType || 'unknown'})`;
+                                failedScrapes++;
+                            }
+                        } catch (error) {
+                            console.warn(`Error scraping URL ${url}:`, error);
+                            scrapedPreambleForUserDisplay += `Failed to scrape: \`${escapeHTML(url)}\` (Error: ${escapeHTML(error.message)})`;
+                            failedScrapes++;
+                        }
+                    }
+                    scrapeStatusElement.textContent = `Scraping: ${scrapedCount} ok, ${failedScrapes} failed/skipped.`;
+                    if (!isAwaitingResponse) sendButton.disabled = false;
+                    scrapedPreambleForUserDisplay = scrapedPreambleForUserDisplay.trim();
+                }
+            }
+
+
+            if ((!messageText && attachedFiles.length === 0 && !scrapedUrlContentForApi) || !selectedModel || isAwaitingResponse) {
+                if (!selectedModel) alert("Please select a model or ensure API URL is correct.");
+                if (isAwaitingResponse) console.log("Already awaiting response.");
+                if (!messageText && !attachedFiles.length && scrapeUrlCheckbox.checked && !scrapedUrlContentForApi) {
+                    scrapeStatusElement.textContent = "No message, files, or usable scraped content to send.";
+                    return;
+                }
                 return;
             }
 
             isAwaitingResponse = true;
             sendButton.disabled = true;
             userInput.disabled = true;
-            fileUploadZone.style.pointerEvents = 'none'; // Disable drop zone during send
+            fileManagementArea.classList.add('disabled-drop-zone');
 
-            displayMessage("User", messageText || (selectedFileBase64 ? "Analyzing image..." : "Empty message"), false, selectedFileBase64 ? selectedFileName : null);
+            displayMessage("User", messageText, scrapedPreambleForUserDisplay, false, attachedFiles.map(f => f.name));
             userInput.value = '';
+            updateInputHighlighting(); // Clear highlights after sending
 
-            const aiMessageElements = displayMessage("AI", "<em>Typing...</em>", true);
+
+            const aiMessageElements = displayMessage("AI", "<em>Typing...</em>", null, true);
             currentAiMessageContentDiv = aiMessageElements.contentDiv;
             currentAiMessageContentDiv.dataset.rawMarkdown = "";
 
-            const messagesForApi = [];
-            if (systemPrompt) messagesForApi.push({ role: "system", content: systemPrompt });
-            messagesForApi.push(...conversationHistory);
+            let userMessageForApi = "";
 
-            const currentUserMessage = { role: "user", content: messageText || (selectedFileBase64 ? "What is in this image? (If no text, describe the image)" : "") };
-            if (selectedFileBase64) {
-                currentUserMessage.images = [selectedFileBase64];
+            if (scrapedUrlContentForApi) {
+                userMessageForApi += scrapedUrlContentForApi;
             }
-            messagesForApi.push(currentUserMessage);
+
+            if (messageText) {
+                userMessageForApi += `\n\nUser's typed message:\n${messageText}\n`;
+            } else if (scrapedUrlContentForApi && !messageText) {
+                userMessageForApi += `\n\nUser's typed message:\n(No typed message, content above was scraped from URLs in original prompt)\n`;
+            }
+
+
+            const imagesForApi = [];
+            let filePreambleForApi = "";
+            let textFileContentsForApi = "";
+
+            if (attachedFiles.length > 0) {
+                filePreambleForApi = "User has also attached the following files:\n";
+                for (const file of attachedFiles) {
+                    const safeFilename = escapeHTML(file.name);
+                    filePreambleForApi += `- "${safeFilename}" (${file.type})\n`;
+
+                    if (file.type.startsWith('image/')) {
+                        imagesForApi.push(file.content.split(',')[1]);
+                    } else {
+                        textFileContentsForApi += `\n\nContent of "${safeFilename}":\n\`\`\`\n${file.content}\n\`\`\`\n`;
+                    }
+                }
+                userMessageForApi += `\n\n${filePreambleForApi}${textFileContentsForApi}`;
+            }
+
+            if (!userMessageForApi.trim() && imagesForApi.length === 0) {
+                console.log("Attempted to send an empty message after processing.");
+                isAwaitingResponse = false;
+                sendButton.disabled = false;
+                userInput.disabled = false;
+                fileManagementArea.classList.remove('disabled-drop-zone');
+                scrapeStatusElement.textContent = "Nothing to send.";
+                finalizeAiMessage(); // Important to call this
+                if (currentAiMessageContentDiv) currentAiMessageContentDiv.innerHTML = marked.parse("**Error:** Tried to send an empty message.");
+                return;
+            }
+
+
+            const messagesForApiPayload = [];
+            if (systemPrompt) messagesForApiPayload.push({ role: "system", content: systemPrompt });
+            messagesForApiPayload.push(...conversationHistory);
+            const currentUserMessagePayload = { role: "user", content: userMessageForApi.trim() };
+            if (imagesForApi.length > 0) {
+                currentUserMessagePayload.images = imagesForApi;
+            }
+            messagesForApiPayload.push(currentUserMessagePayload);
 
             try {
+                const requestBody = {
+                    model: selectedModel,
+                    messages: messagesForApiPayload,
+                    stream: true
+                };
+
                 const response = await fetch(`${OLLAMA_API_URL}/api/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ model: selectedModel, messages: messagesForApi, stream: true }),
+                    body: JSON.stringify(requestBody),
                 });
 
                 if (!response.ok) {
@@ -686,8 +997,18 @@
                     throw new Error(`API error: ${response.status} ${response.statusText}. ${errorBody}`);
                 }
 
-                const historyUserMessageContent = messageText || (selectedFileBase64 ? `(Image: ${selectedFileName}) What is in this image?` : "Sent an image.");
-                conversationHistory.push({ role: "user", content: historyUserMessageContent });
+                let historyUserContent = messageText;
+                if (scrapedPreambleForUserDisplay && scrapedPreambleForUserDisplay.trim() !== "") {
+                    // Use markdown for the scraped preamble in history for better readability if reviewed.
+                    historyUserContent += `\n\n<small><em>Scraped URLs info:\n${scrapedPreambleForUserDisplay.replace(/\n/g, "\n<br>")}</em></small>`;
+                }
+
+                if (attachedFiles.length > 0) {
+                    const fileNamesForHistory = attachedFiles.map(f => escapeHTML(f.name)).join(', ');
+                    historyUserContent = `(Files: ${fileNamesForHistory}) ${historyUserContent || ""}`.trim();
+                }
+                conversationHistory.push({ role: "user", content: historyUserContent });
+
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
@@ -714,135 +1035,230 @@
                 conversationHistory.push({ role: "assistant", content: aiResponseContent });
             } catch (error) {
                 console.error("Error sending message:", error);
-                const errorMessage = `**Error:** ${error.message || "An unknown error occurred."}`;
+                const errorMessage = `**Error:** ${escapeHTML(error.message) || "An unknown error occurred."}`;
                 if (currentAiMessageContentDiv) {
                     currentAiMessageContentDiv.innerHTML = marked.parse(errorMessage);
                     Prism.highlightAllUnder(currentAiMessageContentDiv);
                     currentAiMessageContentDiv.dataset.rawMarkdown = errorMessage;
-                } else {
-                    displayMessage("AI", errorMessage);
-                }
+                } else { displayMessage("AI", errorMessage, null); }
+                if (scrapeStatusElement) scrapeStatusElement.textContent = "Error during send.";
             } finally {
                 finalizeAiMessage();
+                clearAllAttachedFiles();
                 isAwaitingResponse = false;
                 sendButton.disabled = false;
                 userInput.disabled = false;
-                fileUploadZone.style.pointerEvents = 'auto'; // Re-enable drop zone
-                clearSelectedFile();
+                fileManagementArea.classList.remove('disabled-drop-zone');
                 userInput.focus();
             }
+        }
+
+        function renderAttachedFilesUI() {
+            selectedFilesContainer.innerHTML = '';
+            if (attachedFiles.length > 0) {
+                dropZoneInstruction.style.display = 'none';
+                selectedFilesContainer.style.display = 'block';
+                attachedFiles.forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.classList.add('file-item');
+
+                    const fileNameSpan = document.createElement('span');
+                    fileNameSpan.textContent = file.name;
+                    fileNameSpan.title = file.name;
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.classList.add('remove-file-btn');
+                    removeBtn.innerHTML = '×';
+                    removeBtn.title = `Remove ${file.name}`;
+                    removeBtn.dataset.fileId = file.id;
+                    removeBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        removeSpecificFile(file.id);
+                    };
+
+                    fileItem.appendChild(fileNameSpan);
+                    fileItem.appendChild(removeBtn);
+                    selectedFilesContainer.appendChild(fileItem);
+                });
+            } else {
+                dropZoneInstruction.style.display = 'block';
+                selectedFilesContainer.style.display = 'none';
+            }
+        }
+
+        async function extractTextFromPdf(arrayBuffer) {
+            if (typeof pdfjsLib === 'undefined') {
+                console.error("pdf.js is not loaded. Cannot parse PDF.");
+                return "[PDF.js library not loaded. Cannot extract text.]";
+            }
+            try {
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                let fullText = '';
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += pageText + '\n\n';
+                }
+                return fullText.trim();
+            } catch (error) {
+                console.error('Error parsing PDF:', error);
+                return `[Error extracting text from PDF: ${escapeHTML(error.message)}]`;
+            }
+        }
+
+        async function addFilesToList(files) {
+            for (const file of files) {
+                if (attachedFiles.some(f => f.name === file.name)) {
+                    alert(`File "${escapeHTML(file.name)}" is already attached.`);
+                    continue;
+                }
+                const fileId = `file-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+                const reader = new FileReader();
+
+                reader.onload = async (e) => {
+                    let fileContent = e.target.result;
+                    let fileType = file.type;
+
+                    if (fileType === 'application/pdf') {
+                        dropZoneInstruction.textContent = `Processing PDF: ${escapeHTML(file.name)}...`;
+                        fileContent = await extractTextFromPdf(e.target.result);
+                        dropZoneInstruction.textContent = 'Drag & Drop Files Here or Click to Upload';
+                    }
+
+                    attachedFiles.push({
+                        id: fileId,
+                        name: file.name,
+                        content: fileContent,
+                        type: fileType
+                    });
+                    renderAttachedFilesUI();
+                };
+
+                reader.onerror = (e) => {
+                    console.error("Error reading file:", file.name, e);
+                    alert("Error reading file: " + escapeHTML(file.name));
+                    dropZoneInstruction.textContent = 'Drag & Drop Files Here or Click to Upload';
+                };
+
+                if (file.type === 'application/pdf') {
+                    reader.readAsArrayBuffer(file);
+                } else if (file.type.startsWith('image/')) {
+                    reader.readAsDataURL(file);
+                } else if (file.type.startsWith('text/') || file.type === 'application/json' || file.type === 'application/xml' || !file.type) {
+                    reader.readAsText(file);
+                } else {
+                    console.warn(`File type "${escapeHTML(file.type)}" for "${escapeHTML(file.name)}" may not be optimally supported. It will be treated as text if possible.`);
+                    alert(`File type "${escapeHTML(file.type)}" for "${escapeHTML(file.name)}" may not be optimally supported. It will be treated as text if possible, but might result in garbled content for the LLM.`);
+                    reader.readAsText(file);
+                }
+            }
+            fileInputHidden.value = '';
+        }
+
+        function removeSpecificFile(fileId) {
+            attachedFiles = attachedFiles.filter(f => f.id !== fileId);
+            renderAttachedFilesUI();
+            fileInputHidden.value = '';
+        }
+
+        function clearAllAttachedFiles() {
+            attachedFiles = [];
+            fileInputHidden.value = '';
+            renderAttachedFilesUI();
         }
 
         function resetChat() {
             chatMessagesArea.innerHTML = '';
             conversationHistory = [];
             if (currentAiMessageContentDiv) {
-                currentAiMessageContentDiv.innerHTML = '';
-                currentAiMessageContentDiv.dataset.rawMarkdown = '';
+                currentAiMessageContentDiv.innerHTML = ''; currentAiMessageContentDiv.dataset.rawMarkdown = '';
             }
-            finalizeAiMessage();
-            clearSelectedFile();
+            finalizeAiMessage(); // Also resets userScrolledUp
+            clearAllAttachedFiles();
             isAwaitingResponse = false;
             sendButton.disabled = false;
             userInput.disabled = false;
-            fileUploadZone.style.pointerEvents = 'auto';
+            userInput.value = ''; // Clear input field on reset
+            updateInputHighlighting(); // Update highlighter for cleared input
+            fileManagementArea.classList.remove('disabled-drop-zone');
+            if (scrapeStatusElement) scrapeStatusElement.textContent = "";
+            userScrolledUp = false; // Explicitly reset here too
             userInput.focus();
             console.log("Chat reset.");
         }
 
         function scrollToBottom() {
-            chatMessagesArea.scrollTop = chatMessagesArea.scrollHeight;
+            const isAtBottom = chatMessagesArea.scrollHeight - chatMessagesArea.scrollTop <= chatMessagesArea.clientHeight + 2; // +2 for tolerance
+            if (!userScrolledUp || isAtBottom) {
+                chatMessagesArea.scrollTop = chatMessagesArea.scrollHeight;
+                if (isAtBottom) userScrolledUp = false; // If we auto-scrolled to bottom, reset the lock
+            }
         }
 
-        // --- File Upload & Drag and Drop Logic ---
-        fileUploadZone.addEventListener('click', () => {
-            imageFileInput.click();
-        });
-
-        imageFileInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                handleFile(file);
+        // Autoscroll control
+        chatMessagesArea.addEventListener('scroll', () => {
+            // Only consider user scroll intervention if AI is actively responding (streaming)
+            if (isAwaitingResponse && currentAiMessageContentDiv) {
+                const isNearBottom = chatMessagesArea.scrollHeight - chatMessagesArea.scrollTop <= chatMessagesArea.clientHeight + 5; // একটু বেশি সহনশীলতা
+                if (!isNearBottom) {
+                    userScrolledUp = true; // User has scrolled away from the bottom
+                } else {
+                    // If user scrolls back to the very bottom, re-enable autoscroll
+                    userScrolledUp = false;
+                }
             }
-            imageFileInput.value = null; // Reset to allow selecting the same file again
         });
 
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            fileUploadZone.addEventListener(eventName, preventDefaults, false);
-            document.body.addEventListener(eventName, preventDefaults, false); // Prevent browser from opening dropped file
-        });
+        // URL Highlighting in input
+        function updateInputHighlighting() {
+            if (!userInputHighlighter) return;
 
-        ['dragenter', 'dragover'].forEach(eventName => {
-            fileUploadZone.addEventListener(eventName, () => fileUploadZone.classList.add('dragover'), false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            fileUploadZone.addEventListener(eventName, () => fileUploadZone.classList.remove('dragover'), false);
-        });
-
-        fileUploadZone.addEventListener('drop', (event) => {
-            const dt = event.dataTransfer;
-            const file = dt.files[0];
-            if (file) {
-                handleFile(file);
-            }
-        }, false);
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        function handleFile(file) {
-            if (!file.type.startsWith('image/')) {
-                alert('Please upload an image file.');
+            if (!scrapeUrlCheckbox.checked) {
+                userInputHighlighter.innerHTML = '';
                 return;
             }
 
-            selectedFileName = file.name;
-            selectedFileNameElement.textContent = file.name;
+            const text = userInput.value;
+            if (!text) {
+                userInputHighlighter.innerHTML = '';
+                return;
+            }
 
-            const readerBase64 = new FileReader();
-            readerBase64.onload = (e) => {
-                selectedFileBase64 = e.target.result.split(',')[1]; // Get Base64 part
-            };
-            readerBase64.readAsDataURL(file);
+            let highlightedText = escapeHTML(text);
+            const urls = extractUrls(text); // Use original text for URL extraction
 
-            const readerPreview = new FileReader();
-            readerPreview.onload = (e) => {
-                imagePreviewElement.src = e.target.result;
-                selectedFileContainer.style.display = 'flex'; // Show container with preview and name
-                fileUploadZone.querySelector('p').style.display = 'none'; // Hide "Drag & Drop" text
-            };
-            readerPreview.readAsDataURL(file);
+            urls.sort((a, b) => b.length - a.length); // Sort to handle nested URLs correctly
+
+            for (const url of urls) {
+                const escapedUrl = escapeHTML(url);
+                highlightedText = highlightedText.replace(
+                    new RegExp(RegExp.escape(escapedUrl), 'g'),
+                    `<span class="highlighted-url">${escapedUrl}</span>`
+                );
+            }
+            userInputHighlighter.innerHTML = highlightedText;
+
+            // Synchronize scroll position of highlighter with textarea
+            userInputHighlighter.scrollTop = userInput.scrollTop;
+            userInputHighlighter.scrollLeft = userInput.scrollLeft;
         }
-
-        removeImageButton.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent triggering click on fileUploadZone
-            clearSelectedFile();
-        });
-
-        function clearSelectedFile() {
-            selectedFileBase64 = null;
-            selectedFileName = "";
-            selectedFileNameElement.textContent = '';
-            imagePreviewElement.src = '#'; // Clear preview
-            selectedFileContainer.style.display = 'none';
-            fileUploadZone.querySelector('p').style.display = 'block'; // Show "Drag & Drop" text
-            imageFileInput.value = null;
-        }
-
-        // --- End File Upload Logic ---
 
 
         sendButton.addEventListener('click', sendMessage);
         resetChatButton.addEventListener('click', resetChat);
         userInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
+            if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }
+        });
+        userInput.addEventListener('input', updateInputHighlighting);
+        userInput.addEventListener('scroll', () => { // Sync scroll for textarea scrollbar usage
+            if (userInputHighlighter) {
+                userInputHighlighter.scrollTop = userInput.scrollTop;
+                userInputHighlighter.scrollLeft = userInput.scrollLeft;
             }
         });
+        scrapeUrlCheckbox.addEventListener('change', updateInputHighlighting);
+
 
         systemPromptToggle.addEventListener('click', () => {
             const isHidden = systemPromptContent.style.display === 'none';
@@ -851,10 +1267,69 @@
             if (isHidden) systemPromptInput.focus();
         });
 
+        updateOllamaUrlButton.addEventListener('click', () => {
+            const newUrl = ollamaUrlInput.value.trim();
+            if (newUrl && (newUrl.startsWith('http://') || newUrl.startsWith('https://'))) {
+                OLLAMA_API_URL = newUrl; console.log(`Ollama API URL updated to: ${OLLAMA_API_URL}`);
+                modelSelect.innerHTML = `<option value="">Refreshing models from ${OLLAMA_API_URL}...</option>`;
+                fetchModels();
+            } else {
+                alert("Please enter a valid Ollama API URL (e.g., http://localhost:11434).");
+                ollamaUrlInput.value = OLLAMA_API_URL;
+            }
+        });
+
+        fileManagementArea.addEventListener('click', () => {
+            if (!fileManagementArea.classList.contains('disabled-drop-zone')) {
+                fileInputHidden.click();
+            }
+        });
+
+        fileInputHidden.addEventListener('change', (event) => {
+            if (event.target.files.length > 0) {
+                addFilesToList(event.target.files);
+            }
+        });
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileManagementArea.addEventListener(eventName, preventDefaults, false);
+        });
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileManagementArea.addEventListener(eventName, () => {
+                if (!fileManagementArea.classList.contains('disabled-drop-zone')) {
+                    fileManagementArea.classList.add('drag-over');
+                }
+            }, false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileManagementArea.addEventListener(eventName, () => {
+                if (!fileManagementArea.classList.contains('disabled-drop-zone')) {
+                    fileManagementArea.classList.remove('drag-over');
+                }
+            }, false);
+        });
+        fileManagementArea.addEventListener('drop', (event) => {
+            if (!fileManagementArea.classList.contains('disabled-drop-zone')) {
+                const dt = event.dataTransfer;
+                const files = dt.files;
+                if (files && files.length > 0) {
+                    addFilesToList(files);
+                }
+            }
+        }, false);
+
+
         document.addEventListener('DOMContentLoaded', () => {
+            ollamaUrlInput.value = OLLAMA_API_URL;
             fetchModels();
             userInput.focus();
             Prism.plugins.autoloader.languages_path = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/';
+            renderAttachedFilesUI();
+            updateInputHighlighting(); // Initial call in case checkbox is pre-checked
         });
     </script>
 </body>
